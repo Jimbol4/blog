@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Post;
 use App\Http\Requests\PostRequest;
+use Auth;
 
 class PostController extends Controller
 {
@@ -46,7 +47,16 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        $request->user()->posts()->create($request->all());
+        $post = new Post();
+        $post->title = $request->get('title');
+        $post->text = $request->get('text');
+        $post->abstract = $post->getAbstract($request->get('text'));
+        $post->user_id = Auth::user()->id;
+        
+        $post->save();
+        
+        return redirect('posts');
+        
     }
 
     /**
@@ -69,6 +79,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $this->authorize('edit', $post);
+        
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -81,6 +93,15 @@ class PostController extends Controller
     public function update(PostRequest $request, Post $post)
     {
         $this->authorize('update', $post);
+        
+        $post->title = $request->get('title');
+        $post->text = $request->get('text');
+        $post->abstract = $post->getAbstract($request->get('text'));
+        $post->user_id = Auth::user()->id;
+        
+        $post->save();
+        
+        return redirect('posts');
     }
 
     /**
@@ -92,5 +113,9 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $this->authorize('destroy', $post);
+        
+        $post->delete();
+        
+        return redirect('posts');
     }
 }

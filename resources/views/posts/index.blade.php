@@ -2,8 +2,8 @@
 @section('content')
     <div class="jumbotron">
         <h1>Blog Articles</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+        <p>Welcome to The Blog! The most exciting place on the web! Join the conversation!</p>
+        <p><a class="btn btn-primary btn-lg" href="{{ URL::to('posts/create') }}" role="button">Create post &raquo;</a></p>
     </div>
 
 @if (count($posts))
@@ -12,10 +12,11 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Welcome</div>
+                <div class="panel-heading"><a href="{{ URL::to('posts/' . $post->id) }}">{{ $post->title }}</a></div>
 
                 <div class="panel-body">
-                    Your Application's Landing Page.
+                    <p>{{ $post->abstract }} <a href="{{ URL::to('posts/' . $post->id)  }}">Read more</a></p>
+                    <p>Posted by: {{ $post->user->name }} on {{ $post->created_at->toFormattedDateString()}}</p>
                 </div>
             </div>
         </div>

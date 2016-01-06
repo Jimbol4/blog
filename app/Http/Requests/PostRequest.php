@@ -25,9 +25,7 @@ class PostRequest extends Request
     {
         return [
             'title' => 'required|max:255',
-            'text' => 'required',
-            'user_id' => 'exists:users',
-            'abstract' => 'max:255'
+            'text' => 'required'
         ];
     }
 }
