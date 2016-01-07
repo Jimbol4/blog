@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Post;
 use App\Http\Requests\PostRequest;
 use Auth;
+use Flash;
 
 class PostController extends Controller
 {
@@ -54,6 +55,8 @@ class PostController extends Controller
         $post->user_id = Auth::user()->id;
         
         $post->save();
+        
+        Flash::success('New post successfully created');
         
         return redirect('posts');
         
@@ -101,6 +104,8 @@ class PostController extends Controller
         
         $post->save();
         
+        Flash::success('Post successfully updated');
+        
         return redirect('posts');
     }
 
@@ -115,6 +120,8 @@ class PostController extends Controller
         $this->authorize('destroy', $post);
         
         $post->delete();
+        
+        Flash::success('Post successfully deleted');
         
         return redirect('posts');
     }
